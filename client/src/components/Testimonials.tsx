@@ -89,7 +89,7 @@ export default function Testimonials() {
 
         {/* Featured testimonial */}
         <div style={{ maxWidth: '800px', margin: '0 auto 48px', position: 'relative' }}>
-          <div className="card-glass" style={{ borderRadius: '28px', padding: '48px', textAlign: 'center', border: '1px solid rgba(196,163,90,0.2)' }}>
+          <div className="card-glass testimonial-card" style={{ borderRadius: '28px', padding: '48px', textAlign: 'center', border: '1px solid rgba(196,163,90,0.2)' }}>
             {/* Quote mark */}
             <div style={{ fontSize: '72px', lineHeight: 1, color: 'rgba(196,163,90,0.15)', fontFamily: 'Georgia, serif', marginBottom: '-16px' }}>&ldquo;</div>
 
@@ -106,15 +106,17 @@ export default function Testimonials() {
             </p>
 
             {/* Author */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
-              <div style={{ width: '52px', height: '52px', borderRadius: '50%', background: `rgba(${current.color === '#C4A35A' ? '196,163,90' : current.color === '#4db8ff' ? '77,184,255' : current.color === '#4ade80' ? '74,222,128' : '196,163,90'},0.15)`, border: `2px solid ${current.color}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '14px', color: current.color, flexShrink: 0 }}>
-                {current.avatar}
+            <div className="testimonial-author" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
+              <div className="author-info" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ width: '52px', height: '52px', borderRadius: '50%', background: `rgba(${current.color === '#C4A35A' ? '196,163,90' : current.color === '#4db8ff' ? '77,184,255' : current.color === '#4ade80' ? '74,222,128' : '196,163,90'},0.15)`, border: `2px solid ${current.color}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '14px', color: current.color, flexShrink: 0 }}>
+                  {current.avatar}
+                </div>
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontWeight: 700, fontFamily: "'Outfit', sans-serif", fontSize: '16px' }}>{current.name}</div>
+                  <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>{current.role}</div>
+                </div>
               </div>
-              <div style={{ textAlign: 'left' }}>
-                <div style={{ fontWeight: 700, fontFamily: "'Outfit', sans-serif", fontSize: '16px' }}>{current.name}</div>
-                <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>{current.role}</div>
-              </div>
-              <div style={{ marginLeft: '16px', padding: '6px 14px', borderRadius: '100px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>
+              <div className="industry-badge" style={{ padding: '6px 14px', borderRadius: '100px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>
                 {current.icon} {current.company}
               </div>
             </div>
@@ -160,6 +162,15 @@ export default function Testimonials() {
           ))}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .testimonial-card { padding: 32px 24px !important; }
+          .testimonial-author { flex-direction: column !important; gap: 20px !important; }
+          .author-info { text-align: center !important; }
+          .industry-badge { margin-left: 0 !important; }
+        }
+      `}</style>
     </section>
   );
 }
