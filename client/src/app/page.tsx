@@ -1,5 +1,6 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import Clients from '@/components/Clients';
 import Services from '@/components/Services';
 import BizFlow from '@/components/BizFlow';
 import Testimonials from '@/components/Testimonials';
@@ -13,6 +14,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <Clients />
         <Services />
         <BizFlow />
         <Testimonials />
