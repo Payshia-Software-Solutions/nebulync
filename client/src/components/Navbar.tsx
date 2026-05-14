@@ -1,25 +1,74 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    
+    // Intersection Observer for active section tracking
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -70% 0px', // Trigger when section is in top-middle of view
+      threshold: 0
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    
+    // Sections to track
+    const sectionIds = ['hero', 'services', 'bizflow', 'contact'];
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      observer.disconnect();
+    };
+  }, [pathname]);
 
   const links = [
-    { href: '/', label: 'Home' },
-    { href: '/#services', label: 'Services' },
-    { href: '/#bizflow', label: 'BizFlow' },
+    { href: '/', label: 'Home', section: 'hero' },
+    { href: '/#services', label: 'Services', section: 'services' },
+    { href: '/#bizflow', label: 'BizFlow', section: 'bizflow' },
     { href: '/pricing', label: 'Pricing' },
     { href: '/about', label: 'About' },
-    { href: '/#contact', label: 'Contact' },
+    { href: '/careers', label: 'Careers' },
+    { href: '/#contact', label: 'Contact', section: 'contact' },
   ];
+
+  const isActive = (link: { href: string; section?: string }) => {
+    // If we are on a different page (Pricing, About, etc)
+    if (pathname !== '/' && link.href !== '/') {
+      return pathname === link.href;
+    }
+    
+    // If we are on the homepage
+    if (pathname === '/') {
+      if (link.section) {
+        return activeSection === link.section;
+      }
+      return link.href === '/' && (activeSection === 'hero' || activeSection === '');
+    }
+
+    return false;
+  };
 
   return (
     <nav
@@ -46,7 +95,28 @@ export default function Navbar() {
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-[36px]">
           {links.map(l => (
-            <Link key={l.href} href={l.href} className="nav-link">{l.label}</Link>
+            <Link 
+              key={l.href} 
+              href={l.href} 
+              className={`nav-link ${isActive(l) ? 'active' : ''}`}
+              style={{
+                color: isActive(l) ? '#C4A35A' : 'inherit',
+                position: 'relative'
+              }}
+            >
+              {l.label}
+              {isActive(l) && (
+                <span style={{
+                  position: 'absolute',
+                  bottom: '-4px',
+                  left: '0',
+                  width: '100%',
+                  height: '2px',
+                  background: '#C4A35A',
+                  borderRadius: '2px'
+                }} />
+              )}
+            </Link>
           ))}
         </div>
 
@@ -97,7 +167,15 @@ export default function Navbar() {
       }}>
         {links.map(l => (
           <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)}
-            style={{ display: 'block', padding: '14px 0', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '16px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+            style={{ 
+              display: 'block', 
+              padding: '14px 0', 
+              color: isActive(l) ? '#C4A35A' : 'rgba(255,255,255,0.8)', 
+              textDecoration: 'none', 
+              fontSize: '16px', 
+              borderBottom: '1px solid rgba(255,255,255,0.05)',
+              fontWeight: isActive(l) ? 700 : 400
+            }}>
             {l.label}
           </Link>
         ))}
@@ -108,3 +186,4 @@ export default function Navbar() {
     </nav>
   );
 }
+
