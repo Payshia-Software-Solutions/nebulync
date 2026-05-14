@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 
 const values = [
   { icon: '🎯', title: 'Innovation First', desc: 'We embrace emerging technologies and creative approaches to solve complex business challenges.' },
@@ -38,8 +39,8 @@ export default function About() {
               Our team of passionate engineers and designers work collaboratively with clients to understand their unique challenges, crafting tailored solutions that don&apos;t just meet requirements — they exceed expectations.
             </p>
             <div style={{ display: 'flex', gap: '12px' }}>
-              <a href="#contact" className="btn-primary" style={{ textDecoration: 'none' }}>Work With Us</a>
-              <a href="#services" className="btn-outline" style={{ textDecoration: 'none' }}>Our Work</a>
+              <Link href="/#contact" className="btn-primary" style={{ textDecoration: 'none' }}>Work With Us</Link>
+              <Link href="/#services" className="btn-outline" style={{ textDecoration: 'none' }}>Our Work</Link>
             </div>
           </div>
 
@@ -71,21 +72,74 @@ export default function About() {
         </div>
 
         {/* Tech stack */}
-        <div style={{ marginTop: '72px', textAlign: 'center' }}>
-          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '24px' }}>Technologies We Work With</p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '12px' }}>
-            {['React', 'Next.js', 'Node.js', 'PHP', 'Laravel', 'TypeScript', 'MySQL', 'PostgreSQL', 'Docker', 'AWS', 'Tailwind CSS', 'REST APIs'].map(tech => (
-              <span key={tech} style={{ padding: '8px 20px', borderRadius: '100px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.6)', fontSize: '13px', fontWeight: 500 }}>
-                {tech}
-              </span>
-            ))}
+        <div style={{ marginTop: '60px', textAlign: 'center' }}>
+          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '40px' }}>Technologies We Work With</p>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+            {/* Row 1 - 10 Icons */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '32px 60px' }} className="tech-row">
+              {[
+                { name: 'React', slug: 'react', color: '#61DAFB' },
+                { name: 'Next.js', slug: 'nextdotjs', color: '#FFFFFF' },
+                { name: 'TypeScript', slug: 'typescript', color: '#3178C6' },
+                { name: 'Node.js', slug: 'nodedotjs', color: '#339933' },
+                { name: 'Python', slug: 'python', color: '#3776AB' },
+                { name: 'PHP', slug: 'php', color: '#777BB4' },
+                { name: 'Laravel', slug: 'laravel', color: '#FF2D20' },
+                { name: 'Tailwind CSS', slug: 'tailwindcss', color: '#06B6D4' },
+                { name: 'Redux', slug: 'redux', color: '#764ABC' },
+                { name: 'Figma', slug: 'figma', color: '#F24E1E' },
+              ].map(tech => (
+                <div key={tech.name} title={tech.name} className="tech-item">
+                  <img 
+                    src={`https://cdn.simpleicons.org/${tech.slug}/${tech.color.replace('#', '')}`} 
+                    alt={tech.name}
+                    style={{ width: '52px', height: '52px', transition: 'all 0.4s ease', filter: 'drop-shadow(0 0 12px rgba(255,255,255,0.05))' }}
+                    className="hover-scale"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Row 2 - 9 Icons */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '32px 60px' }} className="tech-row">
+              {[
+                { name: 'MySQL', slug: 'mysql', color: '#4479A1' },
+                { name: 'PostgreSQL', slug: 'postgresql', color: '#4169E1' },
+                { name: 'MongoDB', slug: 'mongodb', color: '#47A248' },
+                { name: 'Docker', slug: 'docker', color: '#2496ED' },
+                { name: 'Vercel', slug: 'vercel', color: '#FFFFFF' },
+                { name: 'Firebase', slug: 'firebase', color: '#FFCA28' },
+                { name: 'GitHub', slug: 'github', color: '#FFFFFF' },
+                { name: 'Stripe', slug: 'stripe', color: '#008CDD' },
+                { name: 'REST APIs', slug: 'postman', color: '#FF6C37' },
+              ].map(tech => (
+                <div key={tech.name} title={tech.name} className="tech-item">
+                  <img 
+                    src={`https://cdn.simpleicons.org/${tech.slug}/${tech.color.replace('#', '')}`} 
+                    alt={tech.name}
+                    style={{ width: '52px', height: '52px', transition: 'all 0.4s ease', filter: 'drop-shadow(0 0 12px rgba(255,255,255,0.05))' }}
+                    className="hover-scale"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
       <style>{`
+        @media (max-width: 1200px) {
+          .tech-row { gap: 32px 50px !important; }
+        }
         @media (max-width: 768px) {
           .about-grid { grid-template-columns: 1fr !important; }
+          .tech-row { gap: 24px 24px !important; }
+          .tech-item img { width: 42px !important; height: 42px !important; }
+        }
+        .hover-scale:hover {
+          transform: scale(1.2);
+          filter: drop-shadow(0 0 15px rgba(196,163,90,0.3)) !important;
         }
       `}</style>
     </section>

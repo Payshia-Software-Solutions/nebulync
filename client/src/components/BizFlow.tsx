@@ -24,8 +24,13 @@ export default function BizFlow() {
           <div className="badge" style={{ marginBottom: '16px' }}>
             <span>⚡</span> Flagship Product
           </div>
-          <h2 style={{ fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 800, letterSpacing: '-0.5px' }}>
-            Introducing <span className="gradient-text">BizFlow</span>
+          <h2 style={{ fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 800, letterSpacing: '-0.5px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+            <span style={{ fontSize: '18px', fontWeight: 500, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '4px' }}>Introducing</span>
+            <img 
+              src="/bizzflow-logo.png" 
+              alt="BizFlow Logo" 
+              style={{ height: '70px', width: 'auto', filter: 'invert(1) hue-rotate(180deg) brightness(1.2)' }} 
+            />
           </h2>
           <div className="gold-divider" style={{ margin: '16px auto 24px' }} />
           <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.5)', maxWidth: '600px', margin: '0 auto', lineHeight: 1.8 }}>

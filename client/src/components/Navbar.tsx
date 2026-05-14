@@ -13,12 +13,12 @@ export default function Navbar() {
   }, []);
 
   const links = [
-    { href: '#home', label: 'Home' },
-    { href: '#services', label: 'Services' },
-    { href: '#bizflow', label: 'BizFlow' },
-    { href: '#pricing', label: 'Pricing' },
-    { href: '#about', label: 'About' },
-    { href: '#contact', label: 'Contact' },
+    { href: '/', label: 'Home' },
+    { href: '/#services', label: 'Services' },
+    { href: '/#bizflow', label: 'BizFlow' },
+    { href: '/pricing', label: 'Pricing' },
+    { href: '/about', label: 'About' },
+    { href: '/#contact', label: 'Contact' },
   ];
 
   return (
@@ -35,32 +35,33 @@ export default function Navbar() {
     >
       <div className="container-custom" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         {/* Logo */}
-        <Link href="#home" style={{ textDecoration: 'none' }}>
-          <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '28px', fontWeight: 800, letterSpacing: '-0.5px' }}>
-            <span style={{ color: '#ffffff' }}>Nebu</span>
-            <span style={{ color: '#C4A35A' }}>Lync</span>
-          </span>
+        <Link href="/#home" style={{ textDecoration: 'none' }}>
+          <img 
+            src="/nebulync-without-icon-logo.png" 
+            alt="Nebulync Logo" 
+            style={{ height: '40px', width: 'auto', filter: 'invert(1) hue-rotate(180deg) brightness(1.2)' }} 
+          />
         </Link>
 
         {/* Desktop Links */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '36px' }} className="hidden md:flex">
+        <div className="hidden md:flex items-center gap-[36px]">
           {links.map(l => (
-            <a key={l.href} href={l.href} className="nav-link">{l.label}</a>
+            <Link key={l.href} href={l.href} className="nav-link">{l.label}</Link>
           ))}
         </div>
 
         {/* CTA */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }} className="hidden md:flex">
-          <a href="#contact" className="btn-primary" style={{ padding: '10px 24px', fontSize: '14px', textDecoration: 'none' }}>
+        <div className="hidden md:flex items-center gap-[12px]">
+          <Link href="/#contact" className="btn-primary" style={{ padding: '10px 24px', fontSize: '14px', textDecoration: 'none' }}>
             Get Started
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
         <button
           id="mobile-menu-btn"
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden"
+          className="md:hidden block"
           style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px' }}
           aria-label="Toggle menu"
         >
@@ -68,7 +69,7 @@ export default function Navbar() {
             {[0, 1, 2].map(i => (
               <span key={i} style={{
                 display: 'block', width: '24px', height: '2px',
-                background: i === 1 && menuOpen ? 'transparent' : '#C4A35A',
+                background: (i === 1 && menuOpen) ? 'transparent' : '#C4A35A',
                 borderRadius: '2px',
                 transition: 'all 0.3s ease',
                 transform: menuOpen ? (i === 0 ? 'rotate(45deg) translate(5px,5px)' : i === 2 ? 'rotate(-45deg) translate(5px,-5px)' : 'none') : 'none',
@@ -79,23 +80,31 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      {menuOpen && (
-        <div style={{
-          background: 'rgba(10,10,10,0.98)', backdropFilter: 'blur(20px)',
-          borderTop: '1px solid rgba(196,163,90,0.15)',
-          padding: '24px',
-        }}>
-          {links.map(l => (
-            <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)}
-              style={{ display: 'block', padding: '14px 0', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '16px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-              {l.label}
-            </a>
-          ))}
-          <a href="#contact" className="btn-primary" style={{ display: 'inline-block', marginTop: '16px', textDecoration: 'none' }}>
-            Get Started
-          </a>
-        </div>
-      )}
+      <div style={{
+        position: 'absolute',
+        top: '100%',
+        left: 0,
+        right: 0,
+        background: 'rgba(10,10,10,0.98)',
+        backdropFilter: 'blur(20px)',
+        borderTop: '1px solid rgba(196,163,90,0.15)',
+        padding: '24px',
+        display: menuOpen ? 'block' : 'none',
+        transition: 'all 0.3s ease-in-out',
+        maxHeight: '100vh',
+        overflowY: 'auto',
+        zIndex: 1001
+      }}>
+        {links.map(l => (
+          <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)}
+            style={{ display: 'block', padding: '14px 0', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '16px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+            {l.label}
+          </Link>
+        ))}
+        <Link href="/#contact" onClick={() => setMenuOpen(false)} className="btn-primary" style={{ display: 'inline-block', marginTop: '16px', textDecoration: 'none', width: '100%', textAlign: 'center' }}>
+          Get Started
+        </Link>
+      </div>
     </nav>
   );
 }

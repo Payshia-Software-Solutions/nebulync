@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 
 const plans = [
   {
@@ -152,7 +153,7 @@ export default function Pricing() {
                   )}
                 </div>
 
-                <a href="#contact" style={{
+                <Link href="/#contact" style={{
                   display: 'block', textAlign: 'center', textDecoration: 'none',
                   padding: '14px', borderRadius: '10px', fontWeight: 700, fontSize: '15px',
                   fontFamily: "'Outfit', sans-serif", transition: 'all 0.3s ease',
@@ -161,7 +162,7 @@ export default function Pricing() {
                   border: plan.highlight ? 'none' : '1px solid rgba(255,255,255,0.12)',
                 }}>
                   {plan.cta}
-                </a>
+                </Link>
               </div>
 
               <div style={{ padding: '0 32px 32px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
@@ -212,7 +213,7 @@ export default function Pricing() {
           <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.45)', marginBottom: '28px', maxWidth: '520px', margin: '0 auto 28px' }}>
             We build fully bespoke systems tailored to your business. Let&apos;s discuss your requirements.
           </p>
-          <a href="#contact" className="btn-primary" style={{ textDecoration: 'none' }}>Request a Custom Quote →</a>
+          <Link href="/#contact" className="btn-primary" style={{ textDecoration: 'none' }}>Request a Custom Quote →</Link>
         </div>
       </div>
 

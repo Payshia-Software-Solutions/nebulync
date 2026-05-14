@@ -192,8 +192,36 @@ export default function Hero() {
       </div>
 
       <style>{`
+        @media (max-width: 1024px) {
+          .hero-grid { gap: 40px !important; }
+        }
         @media (max-width: 768px) {
-          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-grid { 
+            grid-template-columns: 1fr !important; 
+            text-align: center !important;
+            padding-top: 40px !important;
+          }
+          .hero-grid > div {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+          }
+          .hero-grid p {
+            margin-left: auto !important;
+            margin-right: auto !important;
+          }
+          .hero-grid .animate-fade-up[style*="display: flex"] {
+            justify-content: center !important;
+          }
+          .hero-grid .animate-fade-right {
+            margin-top: 40px !important;
+            transform: scale(0.85) !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .hero-grid h1 { font-size: 36px !important; }
+          .hero-grid .animate-fade-right { transform: scale(0.7) !important; margin-top: 0 !important; }
+          .hero-grid div[style*="gap: 40px"] { gap: 20px !important; flex-wrap: wrap !important; justify-content: center !important; }
         }
       `}</style>
     </section>
