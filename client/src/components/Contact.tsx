@@ -1,13 +1,38 @@
 'use client';
 import { useState } from 'react';
+import { FaLinkedinIn, FaFacebookF, FaInstagram, FaXTwitter, FaWhatsapp } from 'react-icons/fa6';
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', company: '', service: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        setForm({ name: '', email: '', company: '', service: '', message: '' });
+      } else {
+        const data = await response.json();
+        setError(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      setError('Network error. Please check your connection.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const services = ['Custom Web Development', 'ERP Development', 'Hotel Management', 'Fleet Management', 'Banquet Management', 'Social Media Management', 'BizFlow ERP SaaS', 'Other'];
@@ -35,12 +60,13 @@ export default function Contact() {
           {/* Info */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {[
+              { icon: <FaWhatsapp />, label: 'WhatsApp Us', value: '077 048 1363', href: 'https://wa.me/94770481363' },
               { icon: '📧', label: 'Email Us', value: 'hello@nebulync.com', href: 'mailto:hello@nebulync.com' },
               { icon: '📞', label: 'Call Us', value: '077 048 1363', href: 'tel:+94770481363' },
               { icon: '📍', label: 'Visit Us', value: 'Rathnapura Rd, Pelmadulla, Sri Lanka', href: 'https://maps.google.com/?q=Pelmadulla,Sri+Lanka' },
             ].map(c => (
-              <a key={c.label} href={c.href} className="card-glass" style={{ borderRadius: '16px', padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '16px', textDecoration: 'none' }}>
-                <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(196,163,90,0.1)', border: '1px solid rgba(196,163,90,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}>{c.icon}</div>
+              <a key={c.label} href={c.href} target="_blank" rel="noopener noreferrer" className="card-glass" style={{ borderRadius: '16px', padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '16px', textDecoration: 'none' }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(196,163,90,0.1)', border: '1px solid rgba(196,163,90,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0, color: '#C4A35A' }}>{c.icon}</div>
                 <div>
                   <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', marginBottom: '2px' }}>{c.label}</div>
                   <div style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>{c.value}</div>
@@ -51,10 +77,15 @@ export default function Contact() {
             {/* Social */}
             <div className="card-glass" style={{ borderRadius: '16px', padding: '24px' }}>
               <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '16px', letterSpacing: '1px', textTransform: 'uppercase' }}>Follow Us</p>
-              <div style={{ display: 'flex', gap: '12px' }}>
-                {['LinkedIn', 'Facebook', 'Instagram', 'Twitter'].map(s => (
-                  <div key={s} style={{ padding: '8px 14px', borderRadius: '8px', background: 'rgba(196,163,90,0.08)', border: '1px solid rgba(196,163,90,0.2)', fontSize: '12px', color: '#C4A35A', cursor: 'pointer' }}>
-                    {s}
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                {[
+                  { name: 'LinkedIn', icon: <FaLinkedinIn size={16} /> },
+                  { name: 'Facebook', icon: <FaFacebookF size={16} /> },
+                  { name: 'Instagram', icon: <FaInstagram size={16} /> },
+                  { name: 'X', icon: <FaXTwitter size={16} /> },
+                ].map(s => (
+                  <div key={s.name} title={s.name} style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(196,163,90,0.08)', border: '1px solid rgba(196,163,90,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C4A35A', cursor: 'pointer', transition: 'all 0.3s' }} className="social-icon">
+                    {s.icon}
                   </div>
                 ))}
               </div>
@@ -69,9 +100,9 @@ export default function Contact() {
           </div>
 
           {/* Form */}
-          <div className="card-glass" style={{ borderRadius: '24px', padding: '40px' }}>
+          <div className="card-glass contact-form-card" style={{ borderRadius: '24px' }}>
             {submitted ? (
-              <div style={{ textAlign: 'center', padding: '40px 0' }}>
+              <div style={{ textAlign: 'center', padding: '40px 20px' }}>
                 <div style={{ fontSize: '56px', marginBottom: '16px' }}>✅</div>
                 <h3 style={{ fontSize: '24px', fontWeight: 700, fontFamily: "'Outfit', sans-serif", marginBottom: '12px' }}>Message Sent!</h3>
                 <p style={{ color: 'rgba(255,255,255,0.5)', lineHeight: 1.8 }}>Thank you for reaching out. Our team will contact you within 24 hours.</p>
@@ -79,7 +110,7 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div style={{ display: 'grid', gap: '20px' }} className="form-row">
                   <div>
                     <label style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', marginBottom: '8px', display: 'block' }}>Full Name *</label>
                     <input id="contact-name" required className="input-field" placeholder="John Doe" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
@@ -105,8 +136,22 @@ export default function Contact() {
                   <label style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', marginBottom: '8px', display: 'block' }}>Your Message *</label>
                   <textarea id="contact-message" required className="input-field" placeholder="Tell us about your project..." rows={5} value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} style={{ resize: 'vertical', fontFamily: 'inherit' }} />
                 </div>
-                <button id="contact-submit" type="submit" className="btn-primary" style={{ width: '100%', fontSize: '16px', padding: '16px' }}>
-                  <span style={{ position: 'relative', zIndex: 1 }}>Send Message →</span>
+                {error && (
+                  <div style={{ padding: '12px', borderRadius: '8px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444', fontSize: '13px', textAlign: 'center' }}>
+                    {error}
+                  </div>
+                )}
+                
+                <button 
+                  id="contact-submit" 
+                  type="submit" 
+                  className="btn-primary" 
+                  disabled={loading}
+                  style={{ width: '100%', fontSize: '16px', padding: '16px', opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}
+                >
+                  <span style={{ position: 'relative', zIndex: 1 }}>
+                    {loading ? 'Sending Message...' : 'Send Message →'}
+                  </span>
                 </button>
               </form>
             )}
@@ -115,8 +160,21 @@ export default function Contact() {
       </div>
 
       <style>{`
+        .form-row { grid-template-columns: 1fr 1fr; }
+        .contact-form-card { padding: 40px; }
+        
         @media (max-width: 768px) {
-          .contact-grid { grid-template-columns: 1fr !important; }
+          .contact-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .form-row { grid-template-columns: 1fr !important; }
+          .contact-form-card { padding: 32px 24px !important; }
+        }
+        @media (max-width: 480px) {
+          .contact-form-card { padding: 24px 16px !important; }
+        }
+        .social-icon:hover {
+          background: rgba(196,163,90,0.15) !important;
+          border-color: rgba(196,163,90,0.4) !important;
+          transform: translateY(-2px);
         }
       `}</style>
     </section>
