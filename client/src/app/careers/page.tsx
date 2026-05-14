@@ -86,7 +86,7 @@ export default function Careers() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               {positions.map((p, i) => (
-                <div key={i} className="card-glass" style={{ 
+                <div key={i} className="card-glass position-card" style={{ 
                   padding: '30px', 
                   borderRadius: '20px', 
                   display: 'flex', 
@@ -96,7 +96,7 @@ export default function Careers() {
                   gap: '20px',
                   border: '1px solid rgba(196,163,90,0.1)',
                   transition: 'all 0.3s ease'
-                }} className="position-card">
+                }}>
                   <div style={{ flex: '1', minWidth: '300px' }}>
                     <div style={{ display: 'flex', gap: '10px', marginBottom: '8px' }}>
                       <span style={{ fontSize: '12px', color: '#C4A35A', background: 'rgba(196,163,90,0.1)', padding: '4px 10px', borderRadius: '100px', fontWeight: 600 }}>{p.department}</span>
