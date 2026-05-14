@@ -102,14 +102,14 @@ export default function Hero() {
               From custom web platforms to full-scale ERP systems — Nebulync engineers powerful, scalable solutions that transform how businesses operate and grow.
             </p>
 
-            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }} className="animate-fade-up delay-300">
-              <a href="#services" className="btn-primary" style={{ textDecoration: 'none' }}>Explore Services</a>
-              <a href="#bizflow" className="btn-outline" style={{ textDecoration: 'none' }}>Discover BizFlow</a>
+            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }} className="animate-fade-up delay-300 hero-buttons">
+              <a href="#services" className="btn-primary" style={{ textDecoration: 'none', minWidth: '180px', textAlign: 'center' }}>Explore Services</a>
+              <a href="#bizflow" className="btn-outline" style={{ textDecoration: 'none', minWidth: '180px', textAlign: 'center' }}>Discover BizFlow</a>
             </div>
 
             {/* Stats */}
             <div style={{ display: 'flex', gap: '40px', marginTop: '56px', paddingTop: '40px', borderTop: '1px solid rgba(255,255,255,0.08)' }}
-              className="animate-fade-up delay-400">
+              className="animate-fade-up delay-400 hero-stats">
               {[
                 { value: '50+', label: 'Projects Delivered' },
                 { value: '7+', label: 'Solutions Offered' },
@@ -124,18 +124,18 @@ export default function Hero() {
           </div>
 
           {/* Right — floating card */}
-          <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }} className="animate-fade-right delay-200">
+          <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }} className="animate-fade-right delay-200 hero-mockup">
             {/* Spinning ring */}
             <div style={{
               position: 'absolute', width: '460px', height: '460px', borderRadius: '50%',
               border: '1px solid rgba(196,163,90,0.15)',
               top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
-            }} className="animate-spin-slow" />
+            }} className="animate-spin-slow ring-outer" />
             <div style={{
               position: 'absolute', width: '360px', height: '360px', borderRadius: '50%',
               border: '1px dashed rgba(196,163,90,0.1)',
               top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
-            }} />
+            }} className="ring-inner" />
 
             {/* Main card */}
             <div className="card-glass animate-float" style={{
@@ -186,7 +186,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <div style={{ position: 'absolute', bottom: '32px', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', zIndex: 2 }}>
+      <div className="scroll-indicator" style={{ position: 'absolute', bottom: '32px', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', zIndex: 2 }}>
         <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)', letterSpacing: '2px', textTransform: 'uppercase' }}>Scroll</span>
         <div style={{ width: '1.5px', height: '50px', background: 'linear-gradient(to bottom, rgba(196,163,90,0.6), transparent)' }} className="animate-pulse-gold" />
       </div>
@@ -206,22 +206,34 @@ export default function Hero() {
             flex-direction: column !important;
             align-items: center !important;
           }
+          .hero-buttons {
+            justify-content: center !important;
+            width: 100% !important;
+          }
+          .hero-stats {
+            justify-content: center !important;
+            gap: 30px !important;
+          }
           .hero-grid p {
             margin-left: auto !important;
             margin-right: auto !important;
           }
-          .hero-grid .animate-fade-up[style*="display: flex"] {
-            justify-content: center !important;
+          .hero-mockup {
+            margin-top: 60px !important;
+            transform: scale(0.9) !important;
           }
-          .hero-grid .animate-fade-right {
-            margin-top: 40px !important;
-            transform: scale(0.85) !important;
+          .scroll-indicator {
+            display: none !important;
           }
         }
         @media (max-width: 480px) {
-          .hero-grid h1 { font-size: 36px !important; }
-          .hero-grid .animate-fade-right { transform: scale(0.7) !important; margin-top: 0 !important; }
-          .hero-grid div[style*="gap: 40px"] { gap: 20px !important; flex-wrap: wrap !important; justify-content: center !important; }
+          .hero-grid h1 { font-size: 34px !important; }
+          .hero-buttons { flex-direction: column !important; align-items: stretch !important; width: 100% !important; max-width: 280px !important; }
+          .hero-buttons a { min-width: 0 !important; width: 100% !important; }
+          .hero-mockup { transform: scale(0.75) !important; margin-top: 20px !important; }
+          .hero-stats { gap: 20px !important; }
+          .hero-stats div div:first-child { font-size: 24px !important; }
+          .ring-outer, .ring-inner { display: none !important; }
         }
       `}</style>
     </section>
